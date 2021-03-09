@@ -8,7 +8,7 @@ $(function () {
                 products.forEach(product => {
                     tbody.append(` 
                         <tr>
-                            <td class="id" >${product.id}</td>
+                            <td class="id">${product.id}</td>
                             <td>
                             <input type="text" class="name" value="${product.name}"/>
                             </td>
@@ -27,12 +27,43 @@ $(function () {
         e.preventDefault();
         let newProduct = $('#newProduct');
         $.ajax({
-            url: '/products/',
+            url: '/products',
             method: 'POST',
             data: {
                 name: newProduct.val()
             },
             success: function (response) {
+                $('#getProducts').click();
+            }
+        })
+    });
+
+    $('table').on('click', '.update-button', function () {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').text();
+        let name = row.find('.name').val();
+
+        $.ajax({
+            url: '/products/' + id,
+            method: 'PUT',
+            data: {
+                name: name
+            },
+
+            success: function (response) {
+                $('#getProducts').click();
+            }
+        })
+    })
+    $('table').on('click', '.delete-button', function () {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').text();
+
+        $.ajax({
+            url: '/products/' + id,
+            method: 'DELETE',
+            success: function (response) {
+                console.log(response);
                 $('#getProducts').click();
             }
         })

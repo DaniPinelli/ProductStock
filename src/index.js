@@ -38,9 +38,38 @@ app.post('/products', (req, res) => {
     products.push({
         id: products.length + 1,
         name: name
-    })
+    });
     res.json('Created');
-})
+});
+
+app.put('/products/:id', (req, res) => {
+    const {
+        id
+    } = req.params;
+    const {
+        name
+    } = req.body;
+
+    products.forEach((product, i) => {
+        if (product.id == id) {
+            product.name = name;
+        }
+    });
+    res.json('Updated');
+});
+
+app.delete('/products/:id', (req, res) => {
+    const {
+        id
+    } = req.params;
+    product.forEach((product, i) => {
+        if (product.id == id) {
+            products.splice(i, 1);
+        }
+    });
+    res.json('Updated');
+
+});
 
 //Static files
 app.use(express.static(path.join(__dirname, 'public')));
